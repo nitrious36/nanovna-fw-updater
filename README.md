@@ -25,6 +25,8 @@ two firmware forks:
 
 ### Windows
 
+Windows SmartScreen may warn that this is an unrecognised app (it's an unsigned personal tool). Click More info → Run anyway. Verify the download with the SHA-256 in the release notes.
+
 1. **First time only (STM32 boards):** run **`Driver\dpinst_amd64.exe`** to install
    the bundled ST DfuSe USB driver.
 2. Double-click **`NanoVnaUpdater.exe`** (no install, no .NET runtime needed).
