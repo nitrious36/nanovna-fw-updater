@@ -152,37 +152,6 @@ no `dfu-util` are required:
 
 ---
 
-## Building from source
-
-Requires the .NET 9 SDK.
-
-```bash
-cd Updater
-dotnet build -c Release
-
-# Self-contained single-file binaries:
-dotnet publish -c Release -r win-x64   --self-contained true \
-  -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true
-dotnet publish -c Release -r linux-x64 --self-contained true \
-  -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true
-```
-
-Source layout (`Updater/`):
-
-| File | Role |
-|------|------|
-| `Program.cs` | Argument parsing and the overall flow (STM32 and V2). |
-| `Variant.cs` | Board / family / fork / clock model and `info`-line parsing. |
-| `NanoVnaSerial.cs` | Cross-platform port discovery and `version`/`info` query. |
-| `GitHubSource.cs` | Latest STM32 firmware from GitHub Releases (fork/clock-aware). |
-| `V2Source.cs` | Latest V2 firmware scraped from nanorfe.com. |
-| `V2Flasher.cs` | Native GD32 serial-bootloader flasher. |
-| `Net.cs` | Connectivity preflight and downloads with a progress bar. |
-| `Ui.cs` | Banner, menus, instructions, progress bars. |
-| `Report.cs` | End-of-run summary. |
-
----
-
 ## Credits & trademarks
 
 Firmware is the work of its respective authors — **DiSlord** (NanoVNA-D),
