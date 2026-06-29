@@ -188,6 +188,8 @@ Firmware is the work of its respective authors — **DiSlord** (NanoVNA-D),
 This updater only downloads and flashes their official builds. NanoVNA, SAA-2 and
 related names are the property of their respective owners.
 
+dfu-util (used for flashing) is © its authors and licensed under GPLv2 — https://dfu-util.sourceforge.net.
+
 Updater by **ZS6ORB**.
 
 ---
