@@ -87,8 +87,10 @@ access.
 
 ### Entering update mode
 
-**STM32 (H / H4 / gen1):** on the unit, `CONFIG → DFU → RESET AND ENTER DFU`
+**STM32 (H / H4 / gen1):** on the unit, `CONFIG → DFU → RESET AND ENTER DFU` also check `CONFIG → EXPERT SETTINGS → DFU → RESET AND ENTER DFU`
 (firmware > 0.2), or power on with **BOOT0** tied to VDD. The screen goes blank.
+
+The 4" NanoVNA-H 4 can be entered into update mode by pressing and holding the multifunction (jog) switch down before turning it on, and the screen remains black after entering engineering mode.
 
 **V2 / SAA-2:** switch the unit **OFF**, **hold the LEFT button**, switch it **ON**,
 then release. The screen stays **white** — it's now in serial-bootloader mode.
