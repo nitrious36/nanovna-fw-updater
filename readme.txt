@@ -1,5 +1,5 @@
 ==========================================================
-  NanoVNA Firmware Updater  v1.0.1   -   by ZS6ORB
+  NanoVNA Firmware Updater  v1.0.2   -   by ZS6ORB
 ==========================================================
 
 Detects a connected NanoVNA, reads its firmware, and updates
@@ -55,14 +55,24 @@ HEX2DFU.exe) that the app itself does not use.
 ENTERING UPDATE MODE
 ----------------------------------------------------------
 
-STM32 (H / H4 / gen1):
+H / gen1 (2.8" screen):
   On the unit:  CONFIG -> DFU -> RESET AND ENTER DFU
-  (firmware > 0.2), or power on with BOOT0 tied to VDD.
-  The screen goes blank.
+  (firmware > 0.2), or power off, short BOOT0 to VDD,
+  power on.  The screen goes blank.
+
+H4 (4" screen) - either method:
+  - Power OFF, HOLD the multifunction switch, power ON, or
+  - CONFIG -> EXPERT SETTINGS -> DFU -> RESET AND ENTER DFU
+  The screen stays BLACK - this is correct, not a fault.
 
 V2 / SAA-2:
-  Switch OFF, HOLD the LEFT button, switch ON, release.
+  Power OFF, HOLD the LEFT button, power ON, then release.
   The screen stays WHITE - it is now in bootloader mode.
+
+A blank/black (or white, on V2) screen means the unit is
+waiting for firmware - it is NOT dead. Do not disconnect
+or power-cycle during flashing; if a flash fails, the unit
+stays in update mode, so just retry.
 
 ----------------------------------------------------------
 OPTIONS
