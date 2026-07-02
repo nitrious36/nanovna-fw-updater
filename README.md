@@ -46,21 +46,25 @@ per-platform notes.
 
 Windows SmartScreen may warn that this is an unrecognised app (it's an unsigned personal tool). Click More info → Run anyway. Verify the download with the SHA-256 in the release notes.
 
-1. **First time only (STM32 boards):** run **`Driver\dpinst_amd64.exe`** to install
-   the bundled ST DfuSe USB driver.
-2. Double-click **`binaries\windows\x64\NanoVnaUpdater.exe`** (or the `arm64` build on
+1. Double-click **`binaries\windows\x64\NanoVnaUpdater.exe`** (or the `arm64` build on
    an ARM PC) — no install, no .NET runtime needed.
-3. Connect the NanoVNA in **normal mode** first so it can read the version.
-4. Follow the prompts. When asked, put the unit into DFU / bootloader mode and press ENTER.
+2. Connect the NanoVNA in **normal mode** first so it can read the version.
+3. Follow the prompts. When asked, put the unit into DFU / bootloader mode and press ENTER.
 
 > **Driver note (Windows):** the STM32 boards expose a standard USB CDC serial port
 > (recognised by Windows automatically) and, in DFU mode, a separate **DFU** device.
-> Installing the bundled **ST DfuSe** driver — run **`Driver\dpinst_amd64.exe`** once
-> — lets Windows recognise that DFU device so `dfu-util` can talk to it. The flasher
+> Flashing that DFU device with `dfu-util` needs the **"STM32 Bootloader" (WinUSB)**
+> driver — Windows normally installs it **by itself from Windows Update** the first
+> time the unit enters DFU mode, so there is usually nothing to do. If the flash step
+> reports it **cannot open** the DFU device (common on corporate PCs that block
+> driver updates), fix it with the unit still in DFU mode: run **Zadig** (bundled
+> as **`Driver\zadig-2.9.exe`**, or from `https://zadig.akeo.ie`) → Options → List All Devices → select **STM32
+> BOOTLOADER** → choose **WinUSB** → Install/Replace Driver, then re-run the updater.
+> Alternatively try **Device Manager → "STM32 BOOTLOADER"** (warning icon) **→
+> Update driver → Search automatically**. The bundled `Driver\` folder (ST DfuSe
+> driver) is only for ST's own DfuSe tools — `dfu-util` does not use it. The flasher
 > itself, `dfu-util-static.exe`, ships in the `Firmware\` folder of the combined
-> download (and is fetched automatically if absent). If `dfu-util` ever reports
-> *"No DFU capable USB device"*, install **WinUSB** for the `0483:df11` device with
-> **Zadig** (`https://zadig.akeo.ie`) as a fallback. The **V2** flashes over its
+> download (and is fetched automatically if absent). The **V2** flashes over its
 > normal serial port, so it needs no driver.
 
 ### Linux
@@ -208,6 +212,7 @@ This updater only downloads and flashes their official builds. NanoVNA, SAA-2 an
 related names are the property of their respective owners.
 
 dfu-util (used for flashing) is © its authors and licensed under GPLv2 — https://dfu-util.sourceforge.net.
+Zadig (bundled driver installer) is by Pete Batard, GPLv3 — https://zadig.akeo.ie.
 
 Updater by **ZS6ORB**.
 

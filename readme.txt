@@ -1,5 +1,5 @@
 ==========================================================
-  NanoVNA Firmware Updater  v1.0.2   -   by ZS6ORB
+  NanoVNA Firmware Updater  v1.0.3   -   by ZS6ORB
 ==========================================================
 
 Detects a connected NanoVNA, reads its firmware, and updates
@@ -19,26 +19,40 @@ QUICK START
 ----------------------------------------------------------
 
 WINDOWS
-  1. First time only (STM32 boards): run  Driver\dpinst_amd64.exe
-     to install the bundled ST DfuSe USB driver.
-  2. Connect the NanoVNA in NORMAL mode (so it can be read).
-  3. Run  NanoVnaUpdater.exe  (no install, no .NET needed).
-  4. Follow the prompts. When asked, put the unit into
+  1. Connect the NanoVNA in NORMAL mode (so it can be read).
+  2. Run  NanoVnaUpdater.exe  (no install, no .NET needed).
+  3. Follow the prompts. When asked, put the unit into
      DFU / bootloader mode and press ENTER.
 
-  Driver note: the bundled ST DfuSe driver (run Driver\dpinst_amd64.exe
-  once) lets Windows recognise the STM32 board in DFU mode so dfu-util
-  can flash it. The flasher dfu-util-static.exe ships in Firmware\ (and
-  is downloaded automatically if missing). If dfu-util reports "No DFU
-  capable USB device", install WinUSB for the 0483:df11 device with
-  Zadig (https://zadig.akeo.ie) as a fallback. The V2 flashes over its
-  normal serial port and needs no driver.
+  Driver note: flashing the STM32 boards uses dfu-util, which
+  needs the "STM32 Bootloader" (WinUSB) driver on the DFU device.
+  Windows normally installs it BY ITSELF from Windows Update the
+  first time the unit enters DFU mode - nothing to do. If the
+  flash step reports it cannot OPEN the DFU device (common on
+  corporate PCs that block driver updates), fix it with the
+  unit still in DFU mode: run the bundled Driver\zadig-2.9.exe
+  (or download from https://zadig.akeo.ie) ->
+  Options -> List All Devices -> select "STM32 BOOTLOADER" ->
+  choose WinUSB -> Install/Replace Driver, then re-run the
+  updater. Alternatively try Device Manager -> "STM32
+  BOOTLOADER" (warning icon) -> Update driver -> Search
+  automatically. The bundled Driver\
+  folder (ST DfuSe driver) is only for ST's own DfuSe tools -
+  dfu-util does not use it. The flasher dfu-util-static.exe
+  ships in Firmware\ (and is downloaded automatically if
+  missing). The V2 flashes over its normal serial port and
+  needs no driver.
 
-LINUX (in the Linux/ folder)
+LINUX / MACOS
   chmod +x NanoVnaUpdater
-  sudo apt install dfu-util      (needed for H / H4 / gen1)
+  sudo apt install dfu-util      (Linux - needed for H / H4 / gen1)
+  brew install dfu-util          (macOS)
   ./NanoVnaUpdater
-  (dfu-util is NOT needed for the V2 - its flasher is built in.)
+  (dfu-util is NOT needed for the V2 - its flasher is built in.
+   If dfu-util cannot OPEN the device, it is usually permissions:
+   re-run with sudo, or add a udev rule for 0483:df11.
+   macOS: if Gatekeeper blocks the unsigned binary, run
+   xattr -d com.apple.quarantine NanoVnaUpdater)
 
 ----------------------------------------------------------
 THE FIRMWARE FOLDER
@@ -107,6 +121,8 @@ Firmware belongs to its authors: DiSlord (NanoVNA-D),
 hugen79 (NanoVNA-H), and NanoRFE / OwOComm (NanoVNA V2 /
 SAA-2). This tool only downloads and flashes their official
 builds. Trademarks are the property of their owners.
+Zadig (bundled driver installer) is by Pete Batard, GPLv3 -
+https://zadig.akeo.ie
 
 Updater by ZS6ORB.
 
