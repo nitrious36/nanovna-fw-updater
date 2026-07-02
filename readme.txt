@@ -1,5 +1,5 @@
 ==========================================================
-  NanoVNA Firmware Updater  v1.0.3   -   by ZS6ORB
+  NanoVNA Firmware Updater  v1.0.4   -   by ZS6ORB
 ==========================================================
 
 Detects a connected NanoVNA, reads its firmware, and updates

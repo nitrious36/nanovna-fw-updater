@@ -1,6 +1,6 @@
 # Binaries
 
-Pre-built, self-contained NanoVNA Firmware Updater executables (v1.0.3). Each binary
+Pre-built, self-contained NanoVNA Firmware Updater executables (v1.0.4). Each binary
 bundles the .NET runtime, so **no .NET installation is required** — download the one
 for your machine and run it.
 
