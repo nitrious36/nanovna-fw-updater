@@ -1,8 +1,8 @@
 # NanoVNA Firmware Updater
 
-A single-file, cross-platform console tool that detects a connected **NanoVNA**,
-reads its installed firmware, and updates it to the latest matching build — by
-**ZS6ORB**.
+A single-file, cross-platform console tool (**Windows, Linux and macOS — x64 and
+ARM64**) that detects a connected **NanoVNA**, reads its installed firmware, and
+updates it to the latest matching build — by **ZS6ORB**.
 
 It handles the whole fragmented NanoVNA family from one program:
 
@@ -21,6 +21,25 @@ two firmware forks:
 
 ---
 
+## Download
+
+Grab the self-contained build for your machine from the **[`binaries/`](binaries/)**
+folder — the .NET runtime is bundled, so **no .NET install is required**:
+
+| OS | x64 | ARM64 |
+|----|-----|-------|
+| **Windows** | [`binaries/windows/x64/NanoVnaUpdater.exe`](binaries/windows/x64/NanoVnaUpdater.exe) | [`binaries/windows/arm64/NanoVnaUpdater.exe`](binaries/windows/arm64/NanoVnaUpdater.exe) |
+| **Linux** | [`binaries/linux/x64/NanoVnaUpdater`](binaries/linux/x64/NanoVnaUpdater) | [`binaries/linux/arm64/NanoVnaUpdater`](binaries/linux/arm64/NanoVnaUpdater) |
+| **macOS** | [`binaries/macos/x64/NanoVnaUpdater`](binaries/macos/x64/NanoVnaUpdater) | [`binaries/macos/arm64/NanoVnaUpdater`](binaries/macos/arm64/NanoVnaUpdater) |
+
+Prefer a packaged download? Each platform also has a zip on the
+[latest release](https://github.com/nitrious36/nanovna-fw-updater/releases/latest),
+plus a combined `nanovna-fw-updater.zip` that includes a pre-populated `Firmware/`
+folder for offline use. See [`binaries/README.md`](binaries/README.md) for
+per-platform notes.
+
+---
+
 ## Quick start
 
 ### Windows
@@ -29,7 +48,8 @@ Windows SmartScreen may warn that this is an unrecognised app (it's an unsigned 
 
 1. **First time only (STM32 boards):** run **`Driver\dpinst_amd64.exe`** to install
    the bundled ST DfuSe USB driver.
-2. Double-click **`NanoVnaUpdater.exe`** (no install, no .NET runtime needed).
+2. Double-click **`binaries\windows\x64\NanoVnaUpdater.exe`** (or the `arm64` build on
+   an ARM PC) — no install, no .NET runtime needed.
 3. Connect the NanoVNA in **normal mode** first so it can read the version.
 4. Follow the prompts. When asked, put the unit into DFU / bootloader mode and press ENTER.
 
@@ -37,12 +57,15 @@ Windows SmartScreen may warn that this is an unrecognised app (it's an unsigned 
 > (recognised by Windows automatically) and, in DFU mode, a separate **DFU** device.
 > Installing the bundled **ST DfuSe** driver — run **`Driver\dpinst_amd64.exe`** once
 > — lets Windows recognise that DFU device so `dfu-util` can talk to it. The flasher
-> itself, `dfu-util-static.exe`, ships in the `Firmware\` folder (and is downloaded
-> automatically if absent). If `dfu-util` ever reports *"No DFU capable USB device"*,
-> install **WinUSB** for the `0483:df11` device with **Zadig** (`https://zadig.akeo.ie`)
-> as a fallback. The **V2** flashes over its normal serial port, so it needs no driver.
+> itself, `dfu-util-static.exe`, ships in the `Firmware\` folder of the combined
+> download (and is fetched automatically if absent). If `dfu-util` ever reports
+> *"No DFU capable USB device"*, install **WinUSB** for the `0483:df11` device with
+> **Zadig** (`https://zadig.akeo.ie`) as a fallback. The **V2** flashes over its
+> normal serial port, so it needs no driver.
 
 ### Linux
+
+Builds are under **`binaries/linux/x64/`** and **`binaries/linux/arm64/`**:
 
 ```bash
 chmod +x NanoVnaUpdater
@@ -53,6 +76,23 @@ sudo apt install dfu-util        # required for the STM32 boards (H / H4 / gen1)
 `dfu-util` is only needed for the STM32 boards. The **V2** flasher is built in and
 needs nothing extra. On Linux you may need udev rules (or `sudo`) for serial/DFU
 access.
+
+### macOS
+
+Builds are under **`binaries/macos/x64/`** (Intel) and **`binaries/macos/arm64/`**
+(Apple Silicon):
+
+```bash
+brew install dfu-util            # required for the STM32 boards (H / H4 / gen1)
+chmod +x NanoVnaUpdater
+xattr -d com.apple.quarantine NanoVnaUpdater   # clear Gatekeeper quarantine (unsigned)
+./NanoVnaUpdater
+```
+
+As on Linux, `dfu-util` is only needed for the STM32 boards; the **V2** flasher is
+built in. The binary is unsigned — if Gatekeeper blocks it, allow it under
+**System Settings → Privacy & Security**. The NanoVNA appears as `/dev/tty.usbmodem…`;
+pass it with `--port` if auto-detect misses it.
 
 ---
 
@@ -77,11 +117,11 @@ access.
 - **Offline mode:** with `--offline` (or if the network is down) it flashes a
   firmware file you've already downloaded into the `Firmware` folder.
 - **Self-provisioning:** the `Firmware` folder is optional — run the lone
-  `NanoVnaUpdater.exe` and it creates the folder, then downloads the firmware `.bin`
-  and `dfu-util-static.exe` as needed. A pre-populated `Firmware` folder (as shipped)
-  is reused instead, so a bundled package also works with no internet. The folder
-  also carries optional manual-flash helpers (`DFU_LOAD_BIN.bat`, `HEX2DFU.exe`) that
-  the app itself doesn't use.
+  `NanoVnaUpdater` and it creates the folder, then downloads the firmware `.bin`
+  and `dfu-util-static.exe` as needed. A pre-populated `Firmware` folder (as shipped
+  in the combined zip) is reused instead, so a bundled package also works with no
+  internet. The folder also carries optional manual-flash helpers (`DFU_LOAD_BIN.bat`,
+  `HEX2DFU.exe`) that the app itself doesn't use.
 - **End-of-run summary:** every step is collected and printed as a single summary,
   and the window stays open until you press **[Q]**.
 
