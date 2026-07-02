@@ -59,7 +59,7 @@ Windows SmartScreen may warn that this is an unrecognised app (it's an unsigned 
 > reports it **cannot open** the DFU device (common on corporate PCs that block
 > driver updates), fix it with the unit still in DFU mode: run **Zadig** (bundled
 > as **`Driver\zadig-2.9.exe`**, or from `https://zadig.akeo.ie`) → Options → List All Devices → select **STM32
-> BOOTLOADER** → choose **WinUSB** → Install/Replace Driver, then re-run the updater.
+> BOOTLOADER** (0483 DF11) → choose **WinUSB** → Install/Replace Driver, then re-run the updater.
 > Alternatively try **Device Manager → "STM32 BOOTLOADER"** (warning icon) **→
 > Update driver → Search automatically**. The bundled `Driver\` folder (ST DfuSe
 > driver) is only for ST's own DfuSe tools — `dfu-util` does not use it. The flasher
